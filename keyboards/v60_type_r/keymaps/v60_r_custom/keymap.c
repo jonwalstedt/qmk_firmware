@@ -101,11 +101,35 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // KC_DOT
 // KC_SLASH KC_SLSH
 // KC_NONUS_BSLASH
-static bool isAltRegistered = false;
 static bool shouldReaddShiftOnRelease = false;
 
-static int MY_SEMICOL = KC_COMM;
-static int MY_COL = S(KC_DOT);
+
+// static bool shiftIsRegistered = false;
+//
+// static void registerShift(void) {
+//   shiftIsRegistered = true;
+//   register_code(KC_RSFT);
+// }
+//
+// static void unRegisterShift(void) {
+//   shiftIsRegistered = true;
+//   unregister_code(KC_RSFT);
+// }
+
+static bool altIsRegistered = false;
+
+static void registerAlt(void) {
+  altIsRegistered = true;
+  register_code(KC_RALT);
+}
+
+static void unRegisterAlt(void) {
+  altIsRegistered = false;
+  unregister_code(KC_RALT);
+}
+
+// static int MY_SEMICOL = KC_COMM;
+// static int MY_COL = S(KC_DOT);
 static int MY_DASH = S(KC_SLSH);
 static int MY_EQL = KC_0;
 static int MY_PLUS = KC_MINS;
@@ -121,9 +145,8 @@ bool topRow(uint16_t keycode, keyrecord_t *record) {
         if (isLeftShiftPressed || isRightShiftPressed) {
           unregister_code(KC_LSHIFT);
           unregister_code(KC_RSHIFT);
-          register_code(KC_RALT);
+          registerAlt();
           register_code(KC_2);
-          isAltRegistered = true;
         } else {
           register_code(KC_2);
         }
@@ -138,9 +161,8 @@ bool topRow(uint16_t keycode, keyrecord_t *record) {
         if (isLeftShiftPressed || isRightShiftPressed) {
           unregister_code(KC_LSHIFT);
           unregister_code(KC_RSHIFT);
-          register_code(KC_RALT);
+          registerAlt();
           register_code(KC_4);
-          isAltRegistered = true;
         } else {
           register_code(KC_4);
         }
@@ -266,9 +288,8 @@ bool topRow(uint16_t keycode, keyrecord_t *record) {
       return false;
 
     default:
-      if (isAltRegistered) {
-        unregister_code(KC_RALT);
-        isAltRegistered = false;
+      if (altIsRegistered) {
+        unRegisterAlt();
       }
       if (shouldReaddShiftOnRelease) {
         unregister_code(KC_RSFT);
@@ -278,64 +299,68 @@ bool topRow(uint16_t keycode, keyrecord_t *record) {
   }
 }
 
-bool thirdRow(uint16_t keycode, keyrecord_t *record) {
-  bool isLeftShiftPressed = get_mods() & MOD_BIT(KC_LSHIFT);
-  bool isRightShiftPressed = get_mods() & MOD_BIT(KC_RSHIFT);
 
-  switch (keycode) {
-    // ö to ; and Ö to ;
-    case KC_COMM:
-      if (record->event.pressed){
-        if (isLeftShiftPressed || isRightShiftPressed) {
-          unregister_code(KC_COMM);
-          register_code(MY_COL);
-        } else {
-          unregister_code(KC_COMM);
-          register_code(KC_LSHIFT);
-          register_code(MY_SEMICOL);
-        }
-      } else {
-        unregister_code(KC_COMM);
-        unregister_code(KC_LSHIFT);
-        unregister_code(MY_COL);
-        unregister_code(MY_SEMICOL);
-      }
-      return false;
-
-    // ä to ' and " to ;
-    case KC_QUOT:
-      if (record->event.pressed){
-        if (isLeftShiftPressed || isRightShiftPressed) {
-          unregister_code(KC_QUOT);
-          register_code(KC_2);
-        } else {
-          unregister_code(KC_QUOT);
-          register_code(KC_NONUS_HASH);
-        }
-      } else {
-        unregister_code(KC_QUOT);
-        unregister_code(KC_NONUS_HASH);
-        unregister_code(KC_2);
-      }
-      return false;
-
-    default:
-      if (isAltRegistered) {
-        unregister_code(KC_RALT);
-        isAltRegistered = false;
-      }
-      if (shouldReaddShiftOnRelease) {
-        unregister_code(KC_RSFT);
-        shouldReaddShiftOnRelease = false;
-      }
-      return true;
-  }
-}
+// bool thirdRow(uint16_t keycode, keyrecord_t *record) {
+//   bool isLeftShiftPressed = get_mods() & MOD_BIT(KC_LSHIFT);
+//   bool isRightShiftPressed = get_mods() & MOD_BIT(KC_RSHIFT);
+//
+//   switch (keycode) {
+//     // ö to ; and Ö to ;
+//     case KC_COMM:
+//       if (record->event.pressed){
+//         if (isLeftShiftPressed || isRightShiftPressed) {
+//           unregister_code(KC_COMM);
+//           register_code(MY_COL);
+//         } else {
+//           unregister_code(KC_COMM);
+//           shiftIsRegistered = true;
+//           register_code(KC_RSHIFT);
+//           register_code(MY_SEMICOL);
+//         }
+//       } else {
+//         unregister_code(MY_SEMICOL);
+//         unregister_code(KC_COMM);
+//         unregister_code(MY_COL);
+//         if (shiftIsRegistered) {
+//           unregister_code(KC_RSHIFT);
+//           shiftIsRegistered = false;
+//         }
+//       }
+//       return false;
+//
+//     // ä to ' and " to ;
+//     case KC_QUOT:
+//       if (record->event.pressed){
+//         if (isLeftShiftPressed || isRightShiftPressed) {
+//           unregister_code(KC_QUOT);
+//           register_code(KC_2);
+//         } else {
+//           unregister_code(KC_QUOT);
+//           register_code(KC_NONUS_HASH);
+//         }
+//       } else {
+//         unregister_code(KC_QUOT);
+//         unregister_code(KC_NONUS_HASH);
+//         unregister_code(KC_2);
+//       }
+//       return false;
+//
+//     default:
+//       if (altIsRegistered) {
+//         unRegisterAlt();
+//       }
+//       if (shouldReaddShiftOnRelease) {
+//         unregister_code(KC_RSFT);
+//         shouldReaddShiftOnRelease = false;
+//       }
+//       return true;
+//   }
+// }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
   bool val = topRow(keycode, record);
-  val = thirdRow(keycode, record);
+  //val = thirdRow(keycode, record);
   return val;
 }
 
