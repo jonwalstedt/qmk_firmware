@@ -2,33 +2,39 @@
 #include "keymap_swedish.h"
 #include <print.h>
 
+enum layers {
+  _QWERTY = 0,
+  _DEV,
+  _NORMAL,
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  /* Keymap 0: Default Layer (Qwerty also showing with shift modifier)
+  /* Keymap _QWERTY (showing shifted versions as well)
    * ,-------------------------------------------------------------------------------------------------.
-   * |Esc  |  1   |  2   |  3   |  4   |  5   |  6   |  7   |  8   |  9   |  0   |  -   |  =   |   BS  |
+   * |Esc |  1!  |  2@  |  3#  |  4$  |  5%  |  6^  |  7&  |  8*  |  9(  |  0)  |  -_  |  +=  |   BS   |
    * |-------------------------------------------------------------------------------------------------|
    * |Tab  |  q   |  w   |  e   |  r   |  t   |  y   |  u   |  i   |  o   |  p   |  [   |  ]   | Entr  |
    * |---------------------------------------------------------------------------------------------|   |
    * |Fn1      |  a   |  s   |  d   |  f   |  g   |  h   |  j   |  k   |  l   |  ;   |  '   |  \   |   |
    * |-------------------------------------------------------------------------------------------------|
-   * |Fn2     |  #  |  z   |  x   |  c   |  v   |  b   |  n   |  m   |  ,   |  .   |  /   | Fn2        |
+   * |Fn2     | ﬁ ~ |  z   |  x   |  c   |  v   |  b   |  n   |  m   |  ,   |  .   |  /   | Fn2        |
    * |-------------------------------------------------------------------------------------------------|
    * |Ctrl   |Gui    |Alt    |               Space                      |Fn0    |Gui    |App   |Ctrl   |
    * `-------------------------------------------------------------------------------------------------'
    */
-  [0] = LAYOUT_60_iso(
+  [_QWERTY] = LAYOUT_60_iso(
     KC_ESC, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, SE_PLUS, SE_ACUT,       KC_BSPC,
     KC_TAB,      KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, SE_AA, SE_QUOT,
-    MO(2),      KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, SE_OSLH, SE_AE, SE_LESS,  KC_ENT,
-    KC_LSFT,   KC_COMM, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,     KC_RSFT,
+    MO(2),      KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, SE_OSLH, SE_AE, SE_LESS,   KC_ENT,
+    KC_LSFT,   CU_TILDE, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,    KC_RSFT,
     KC_LCTL, KC_LALT, KC_LGUI,                KC_SPC,                  MO(1), KC_RALT, KC_APP, KC_RCTL),
 
 
-    /* Keymap 1: Programming Layer
+    /* Keymap _DEV
    * ,-------------------------------------------------------------------------------------------------.
    * |     |      |      |      |      |      |      |      |      |      |      |      |      | Del   |
    * |-------------------------------------------------------------------------------------------------|
-   * |     |  "   |  %   |  `   |  #   |  *   |  ^   |  _   |  -   |  $   |      |      |      |       |
+   * |     |  "   |  %   |  `   |  #   |  *   |  ^   |  _   |  -   |  $   |  $   |      |      |       |
    * |---------------------------------------------------------------------------------------------|   |
    * |         |  +   |  =   |  (   |  [   |  {   |  }   |  ]   |  )   |      |      |      |      |   |
    * |-------------------------------------------------------------------------------------------------|
@@ -38,16 +44,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * `-------------------------------------------------------------------------------------------------'
    */
 
-  [1] = LAYOUT_60_iso(
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_DEL,
-    KC_TRNS, RSFT(KC_2), RSFT(KC_5), RSFT(KC_EQL), RSFT(KC_3), RSFT(KC_BSLASH), RSFT(KC_RBRACKET), RSFT(KC_SLASH), KC_MINS, RALT(KC_4), KC_TRNS, KC_TRNS, KC_TRNS,
-    KC_TRNS, KC_MINS, KC_RPRN, KC_ASTR, RALT(KC_8), RSFT(RALT(KC_8)), RSFT(RALT(KC_9)), RALT(KC_9), RSFT(KC_9),
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, RALT(KC_RBRACKET), KC_SLASH, KC_TILD, KC_TILD, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS),
+  [_DEV] = LAYOUT_60_iso(
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DEL,
+    _______, CU_QUOT, CU_PERC, CU_BQUO, CU_NUMB, CU_ASTR, CU_CIRC, CU_LOWE, CU_MINS, CU_DLR, CU_DLR, _______, _______,
+    _______, CU_PLUS, CU_EQL, CU_LPRN, CU_LBRC, CU_LCBR, CU_RCBR, CU_RBRC, CU_RPRN, _______, _______, _______, _______, _______,
+    _______, _______, CU_MINS, CU_LESS, CU_GRTR, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______,  _______, _______,                           _______,                           _______, _______, _______, _______
+  ),
 
 
 
-    /* Keymap 2: Arrows, built in and media keys
+    /* Keymap _DEFAULT: Arrows, built in and media keys
    * ,-------------------------------------------------------------------------------------------------.
    * |     |      |      |      |      |      |      |      |      |      |      |      |      |       |
    * |-------------------------------------------------------------------------------------------------|
@@ -61,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * `-------------------------------------------------------------------------------------------------'
    */
 
-  [2] = LAYOUT_60_iso(KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_PGDN, KC_PGUP, KC_HOME, KC_END, KC_PSCR, KC_TRNS, KC_TRNS, KC_TRNS, KC_UP, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_RGHT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS)
+  [_NORMAL] = LAYOUT_60_iso(_______, _______, _______, _______, _______, _______, _______, _______, KC_PGDN, KC_PGUP, KC_HOME, KC_END, KC_PSCR, _______, _______, _______, KC_UP, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______)
 };
 
 
@@ -174,6 +181,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       NORM_SHIFT(KC_NONUS_HASH, KC_2); // ä to ' | Ä to "
     case KC_NUBS:
       SHIFT_ALGR_ALGR(KC_7, KC_7); // ' to \ | * to |
+    case CU_TILDE: // < to ﬁ | > to ~
+      unregister_code(KC_LSFT);
+      if(record->event.pressed) {
+        if (lshift || rshift) {
+          register_code(KC_RALT);
+          unregister_code(CU_TILDE);
+          register_code(SE_QUOT);
+          unregister_code(SE_QUOT);
+          unregister_code(KC_RALT);
+        } else {
+          register_code(KC_RALT);
+          unregister_code(CU_TILDE);
+          register_code(KC_L);
+          unregister_code(KC_L);
+          unregister_code(KC_RALT);
+          if (lshift || rshift) {
+            register_code(KC_LSFT);
+          } else {
+            unregister_code(KC_LSFT);
+          }
+        }
+      }
+      return false;
     // TODO: handle <>
     case KC_COMM:
       NORM_NORM(KC_COMM, KC_GRV); // ; to <

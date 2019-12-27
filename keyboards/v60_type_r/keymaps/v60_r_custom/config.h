@@ -15,7 +15,29 @@
  */
 #pragma once
 
-// place overrides here
+enum custom_keycodes {
+  CU_TILDE = 110,
+};
+
+#define CU_QUOT RSFT(KC_2)          // "
+#define CU_PERC RSFT(KC_5)          // %
+#define CU_BQUO RSFT(KC_EQL)        // `
+#define CU_NUMB RSFT(KC_3)          // #
+#define CU_ASTR RSFT(KC_BSLASH)     // *
+#define CU_CIRC RSFT(KC_RBRACKET)   // ^
+#define CU_LOWE RSFT(KC_SLASH)      // _
+#define CU_MINS KC_MINS             // -
+#define CU_DLR RALT(KC_4)           // $
+#define CU_PLUS SE_ACUT             // +
+#define CU_EQL RSFT(KC_0)           // =
+#define CU_LPRN KC_ASTR             // (
+#define CU_LBRC RALT(KC_8)          // [
+#define CU_LCBR RSFT(RALT(KC_8))    // {
+#define CU_RCBR RSFT(RALT(KC_9))    // }
+#define CU_RBRC RALT(KC_9)          // ]
+#define CU_RPRN RSFT(KC_9)          // )
+#define CU_LESS KC_GRV              // <
+#define CU_GRTR RSFT(KC_GRV)        // >
 
 // Normal first shift second
 #define NORM_SHIFT(kc1, kc2) \
