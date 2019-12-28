@@ -206,6 +206,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       NORM_SHIFT(KC_NONUS_HASH, KC_2); // ä to ' | Ä to "
     case BA_BSLSH:
       SHIFT_ALGR_ALGR(KC_7, KC_7); // ' to \ | * to |
+    case CU_BQUO: // ` backtick without being a dead key`
+      if(record->event.pressed) {
+        register_code(KC_LSFT);
+        register_code(KC_EQL);
+        unregister_code(KC_EQL);
+        unregister_code(KC_LSFT);
+        register_code(KC_SPC);
+        unregister_code(KC_SPC);
+      }
+      return false;
     case BA_TILD: // < to ﬁ | > to ~
       unregister_code(KC_LSFT);
       if(record->event.pressed) {

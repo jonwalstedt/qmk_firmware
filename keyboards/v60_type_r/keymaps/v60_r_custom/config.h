@@ -28,11 +28,11 @@ enum custom_keycodes {
   SWE_COM  =     119,
   SWE_DOT  =     120,
   SWE_DAS  =     121,
+  CU_BQUO  =     122,
 };
 
 #define CU_QUOT RSFT(KC_2)          // "
 #define CU_PERC RSFT(KC_5)          // %
-#define CU_BQUO RSFT(KC_EQL)        // `
 #define CU_NUMB RSFT(KC_3)          // #
 #define CU_ASTR RSFT(KC_BSLASH)     // *
 #define CU_CIRC RSFT(KC_RBRACKET)   // ^
