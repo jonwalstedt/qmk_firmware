@@ -16,7 +16,12 @@
 #pragma once
 
 enum custom_keycodes {
-  CU_TILDE = 110,
+  BA_TILD  =     110,
+  BA_LBRC  =     111,
+  BA_RBRC  =     112,
+  BA_SCLN  =     113,
+  BA_QUOT  =     114,
+  BA_BSLSH =     115,
 };
 
 #define CU_QUOT RSFT(KC_2)          // "
@@ -39,6 +44,7 @@ enum custom_keycodes {
 #define CU_LESS KC_GRV              // <
 #define CU_GRTR RSFT(KC_GRV)        // >
 
+// TODO refactor theese:
 // Normal first shift second
 #define NORM_SHIFT(kc1, kc2) \
 if (record->event.pressed) { \
@@ -195,6 +201,31 @@ if (record->event.pressed) { \
 } \
 return false;
 
+// altgr first shift altgr second
+#define ALGR_SHIFT_ALGR(kc1, kc2) \
+if (record->event.pressed) { \
+  unregister_code(KC_LSFT); \
+  if (lshift || rshift) { \
+    register_code(KC_RALT); \
+    register_code(KC_LSFT); \
+    unregister_code(kc2); \
+    register_code(kc2); \
+    unregister_code(kc2); \
+    unregister_code(KC_RALT); \
+    unregister_code(KC_LSFT); \
+  } else { \
+    register_code(KC_RALT); \
+    unregister_code(kc1); \
+    register_code(kc1); \
+    unregister_code(kc1); \
+    unregister_code(KC_RALT); \
+    if (lshift || rshift) \
+      register_code(KC_LSFT); \
+    else \
+      unregister_code(KC_LSFT); \
+    } \
+} \
+return false;
 // Different keycode when Ctrl is pressed
 #define CTRL(kc1, kc2) \
 if(record->event.pressed) { \

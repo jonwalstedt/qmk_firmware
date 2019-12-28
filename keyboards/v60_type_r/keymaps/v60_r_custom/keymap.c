@@ -3,13 +3,19 @@
 #include <print.h>
 
 enum layers {
-  _QWERTY = 0,
+  _BASE = 0,
   _DEV,
-  _NORMAL,
+  _SWE,
+  _MEDIA,
 };
 
+#define MO_BASE     MO(_BASE)
+#define MO_DEV      MO(_DEV)
+#define TG_SWE      TG(_SWE)
+#define MO_MEDIA    MO(_MEDIA)
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  /* Keymap _QWERTY (showing shifted versions as well)
+  /* Keymap _BASE (showing shifted versions as well)
    * ,-------------------------------------------------------------------------------------------------.
    * |Esc |  1!  |  2@  |  3#  |  4$  |  5%  |  6^  |  7&  |  8*  |  9(  |  0)  |  -_  |  +=  |   BS   |
    * |-------------------------------------------------------------------------------------------------|
@@ -22,12 +28,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |Ctrl   |Gui    |Alt    |               Space                      |Fn0    |Gui    |App   |Fn1    |
    * `-------------------------------------------------------------------------------------------------'
    */
-  [_QWERTY] = LAYOUT_60_iso(
+  [_BASE] = LAYOUT_60_iso(
     KC_ESC, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, SE_PLUS, SE_ACUT,       KC_BSPC,
-    KC_TAB,      KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, SE_AA, SE_QUOT,
-    MO(2),      KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, SE_OSLH, SE_AE, SE_LESS,   KC_ENT,
-    KC_LSFT,   CU_TILDE, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,    KC_RSFT,
-    KC_LCTL, KC_LALT, KC_LGUI,                KC_SPC,                  MO(1), KC_RALT, KC_APP, MO(2)),
+    KC_TAB,      KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, BA_LBRC, BA_RBRC,
+    TG_SWE,    KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, BA_SCLN, BA_QUOT, BA_BSLSH, KC_ENT,
+    KC_LSFT,    BA_TILD, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,    KC_RSFT,
+    KC_LCTL, KC_LALT, KC_LGUI,                KC_SPC,                 MO_DEV, KC_RALT, KC_APP,  MO_MEDIA
+  ),
 
 
     /* Keymap _DEV
@@ -53,14 +60,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
 
-
-    /* Keymap _DEFAULT: Arrows, built in and media keys
+    /* Keymap _DEFAULT: Swedish åäö characters, characters on number row not available in BASE, and other special keys
    * ,-------------------------------------------------------------------------------------------------.
-   * |     |      |      |   £  |      |      |      |      |PGDOWN|PGUP  |HOME  |END   |PSCR  |       |
+   * |     |      |      |   £  |      |      |      |      |      |      |     |       |      |       |
    * |-------------------------------------------------------------------------------------------------|
-   * |     |      |  UP  |      |      |      |      |      |      |      |      |  å   |      |       |
+   * |     |      |      |      |      |      |      |      |      |      |      |  å   |      |       |
    * |---------------------------------------------------------------------------------------------|   |
-   * |         | LEFT | DOWN | RIGHT|      |      |      |      |      |      |  ö   |  ä   |      |   |
+   * |         |      |      |      |      |      |      |      |      |      |  ö   |  ä   |      |   |
    * |-------------------------------------------------------------------------------------------------|
    * |        |     |      |      |      |      |      |      |      |      |      |      |            |
    * |-------------------------------------------------------------------------------------------------|
@@ -68,13 +74,35 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * `-------------------------------------------------------------------------------------------------'
    */
 
-  [_NORMAL] = LAYOUT_60_iso(
-    _______, _______, _______, _______, _______, _______, _______, _______, KC_PGDN, KC_PGUP, KC_HOME, KC_END, KC_PSCR, _______,
+  [_SWE] = LAYOUT_60_iso(
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, SE_AA, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, SE_OSLH, SE_AE, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, _______, _______,                          _______,                               _______, _______, _______, _______
+    ),
+
+    /* Keymap _DEFAULT: Arrows, built in and media keys
+   * ,-------------------------------------------------------------------------------------------------.
+   * |     |      |      |   £  |      |      |      |      |PSCR  |HOME  |END  |PGUP   |PGDN  |       |
+   * |-------------------------------------------------------------------------------------------------|
+   * |     |      |      |      |      |      |      |      |      |      |      |  å   |      |       |
+   * |---------------------------------------------------------------------------------------------|   |
+   * |         |      |      |      |      |      |      |      |      |      |  ö   |  ä   |      |   |
+   * |-------------------------------------------------------------------------------------------------|
+   * |        |     |      |      |      |      |      |      |      |      |      |      |            |
+   * |-------------------------------------------------------------------------------------------------|
+   * |       |       |       |                                          |       |       |      |       |
+   * `-------------------------------------------------------------------------------------------------'
+   */
+
+  [_MEDIA] = LAYOUT_60_iso(
+    _______, _______, _______, _______, _______, _______, _______, _______, KC_PSCR, KC_HOME, KC_END, KC_PGUP, KC_PGDN, _______,
     _______, _______, KC_UP, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, _______, _______,                          _______,                               _______, _______, _______, _______
-    )
+    ),
 };
 
 
@@ -168,28 +196,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       NORM_SHIFT(SE_MINS, SE_MINS); // + to - | ? to _
     case SE_ACUT:
       NORM_SHIFT(SE_PLUS, KC_0); // ´ to + | ` to =
-    case SE_AA:
-      SHIFT_SHIFT_ALGR(KC_8, KC_8); // å to ( | ˚ to [
-    case SE_QUOT:
-      SHIFT_SHIFT_ALGR(KC_9, KC_9); // ¨ to ) | ^ to ]
-    case SE_OSLH:
+    case BA_LBRC:
+      ALGR_SHIFT_ALGR(KC_8, KC_8); // å to [ | ˚ to {
+    case BA_RBRC:
+      ALGR_SHIFT_ALGR(KC_9, KC_9); // ¨ to ] | ^ to }
+    case BA_SCLN:
       SHIFT_SHIFT(KC_COMM, KC_DOT); // ö to ; | Ö to :
-    case SE_AE:
+    case BA_QUOT:
       NORM_SHIFT(KC_NONUS_HASH, KC_2); // ä to ' | Ä to "
-    case KC_NUBS:
+    case BA_BSLSH:
       SHIFT_ALGR_ALGR(KC_7, KC_7); // ' to \ | * to |
-    case CU_TILDE: // < to ﬁ | > to ~
+    case BA_TILD: // < to ﬁ | > to ~
       unregister_code(KC_LSFT);
       if(record->event.pressed) {
         if (lshift || rshift) {
           register_code(KC_RALT);
-          unregister_code(CU_TILDE);
+          unregister_code(BA_TILD);
           register_code(SE_QUOT);
           unregister_code(SE_QUOT);
           unregister_code(KC_RALT);
         } else {
           register_code(KC_RALT);
-          unregister_code(CU_TILDE);
+          unregister_code(BA_TILD);
           register_code(KC_L);
           unregister_code(KC_L);
           unregister_code(KC_RALT);
@@ -201,7 +229,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       }
       return false;
-    // TODO: handle <>
     case KC_COMM:
       NORM_NORM(KC_COMM, KC_GRV); // ; to <
     case KC_DOT:
