@@ -22,6 +22,12 @@ enum custom_keycodes {
   BA_SCLN  =     113,
   BA_QUOT  =     114,
   BA_BSLSH =     115,
+  BA_COMM  =     116,
+  BA_DOT   =     117,
+  BA_SLSH  =     118,
+  SWE_COM  =     119,
+  SWE_DOT  =     120,
+  SWE_DAS  =     121,
 };
 
 #define CU_QUOT RSFT(KC_2)          // "

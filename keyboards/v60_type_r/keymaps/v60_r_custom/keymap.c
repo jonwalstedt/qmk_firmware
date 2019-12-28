@@ -32,7 +32,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_ESC, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, SE_PLUS, SE_ACUT,       KC_BSPC,
     KC_TAB,      KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, BA_LBRC, BA_RBRC,
     TG_SWE,    KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, BA_SCLN, BA_QUOT, BA_BSLSH, KC_ENT,
-    KC_LSFT,    BA_TILD, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,    KC_RSFT,
+    KC_LSFT,    BA_TILD, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, BA_COMM, BA_DOT, BA_SLSH,    KC_RSFT,
     KC_LCTL, KC_LALT, KC_LGUI,                KC_SPC,                 MO_DEV, KC_RALT, KC_APP,  MO_MEDIA
   ),
 
@@ -78,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, SE_AA, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, SE_OSLH, SE_AE, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, SWE_COM, SWE_DOT, SWE_DAS, _______,
     _______, _______, _______,                          _______,                               _______, _______, _______, _______
     ),
 
@@ -229,13 +229,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       }
       return false;
-    case KC_COMM:
+    case BA_COMM:
       NORM_NORM(KC_COMM, KC_GRV); // ; to <
-    case KC_DOT:
+    case BA_DOT:
       NORM_SHIFT(KC_DOT, KC_GRV); // : to >
-    case KC_SLSH:
+    case BA_SLSH:
       SHIFT_SHIFT(KC_7, KC_MINS); // - to / | _ to ?
-
+    case SWE_COM:
+      NORM_SHIFT(KC_COMM, KC_COMM);
+    case SWE_DOT:
+      NORM_SHIFT(KC_DOT, KC_DOT);
+    case SWE_DAS:
+      NORM_SHIFT(KC_SLSH, KC_SLSH);
     default:
       if(record->event.pressed) {
         if (lshift || rshift)
